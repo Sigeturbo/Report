@@ -6,7 +6,7 @@ use Jaspersoft\Client\Client;
 
 class GenerateReport
 {
-    private $client;
+    protected $client;
     private $mime_types = array(
         'html' => 'text/html',
         'pdf' => 'application/pdf',
