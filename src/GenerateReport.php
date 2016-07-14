@@ -67,6 +67,7 @@ class GenerateReport
      */
     private function prepareForDownload($data, $filename, $format)
     {
+        /*
         header('Cache-Control: max-age=0');
         header('Pragma: public');
         header('Content-Description: File Transfer');
@@ -78,6 +79,7 @@ class GenerateReport
         } else {
             header('Content-Type: application/octet-stream');
         }
+        */
         echo $data;
     }
 
