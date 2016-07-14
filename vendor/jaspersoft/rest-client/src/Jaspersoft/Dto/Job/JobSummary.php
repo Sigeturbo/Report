@@ -1,9 +1,7 @@
 <?php
 namespace Jaspersoft\Dto\Job;
 
-use Jaspersoft\Dto\DTOObject;
-
-class JobSummary extends DTOObject
+class JobSummary
 {
 
 	public $id;

@@ -31,10 +31,6 @@ class Client
     protected $reportService;
     protected $importExportService;
     protected $queryService;
-    protected $domainService;
-    protected $thumbnailService;
-    protected $logCollectorService;
-    protected $serverService;
 
 	public function __construct($serverUrl, $username, $password, $orgId = null)
 	{
@@ -116,14 +112,6 @@ class Client
         }
         return $this->reportService;
 	}
-
-    public function reportExecutionService()
-    {
-        if (!isset($this->reportExecutionService)) {
-            $this->reportExecutionService = new service\ReportExecutionService($this);
-        }
-        return $this->reportExecutionService;
-    }
 	
 	public function importExportService()
     {
@@ -141,40 +129,8 @@ class Client
         return $this->queryService;
     }
 
-    public function domainService()
-    {
-        if (!isset($this->domainService)) {
-            $this->domainService = new service\DomainService($this);
-        }
-        return $this->domainService;
-    }
-
-    public function logCollectorService()
-    {
-        if (!isset($this->logCollectorService)) {
-            $this->logCollectorService = new service\LogCollectorService($this);
-        }
-        return $this->logCollectorService;
-    }
-
-    public function thumbnailService()
-    {
-        if (!isset($this->thumbnailService)) {
-            $this->thumbnailService = new service\ThumbnailService($this);
-        }
-        return $this->thumbnailService;
-    }
-
-    public function serverService()
-    {
-        if (!isset($this->serverService)) {
-            $this->serverService = new service\ServerService($this);
-        }
-        return $this->serverService;
-    }
-
-
-    /**
+    /** setRequestTimeout
+     *
      * Set the amount of time cURL is permitted to wait for a response to a request before timing out.
      *
      * @param $seconds int Time in seconds
@@ -184,8 +140,8 @@ class Client
         $this->restReq->defineTimeout($seconds);
     }
 	
-    /**
-     * Obtain information about the server
+    /** This function returns information about the server in an associative array.
+     * Information provided is:
      *
      * - Date/Time Formatting Patterns
      * - Edition
@@ -195,7 +151,6 @@ class Client
      * - License type and expiration
      *
      * @return array
-     * @deprecated Function moved to \Jaspersoft\Service\ServerService#serverInfo()
      */
     public function serverInfo()
     {
@@ -216,14 +171,4 @@ class Client
      */
     public function getService() { return $this->restReq; }
 
-    /**
-     * Destroy your session on the server and locally forget related cookies
-     *
-     */
-    public function logoutSession()
-    {
-        $url = $this->serverUrl . "/logout.html";
-        $this->restReq->prepAndSend($url, array(302), 'GET');     // Kill server session
-        $this->restReq->closeCurlHandle(true);                    // cleanup client resources
-    }
 }

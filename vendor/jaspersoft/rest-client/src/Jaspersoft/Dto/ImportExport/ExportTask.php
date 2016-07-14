@@ -1,6 +1,5 @@
 <?php
 namespace Jaspersoft\Dto\ImportExport;
-use Jaspersoft\Dto\DTOObject;
 
 /**
  * Class ExportTask
@@ -8,7 +7,7 @@ use Jaspersoft\Dto\DTOObject;
  *
  * @package Jaspersoft\Dto\ImportExport
  */
-class ExportTask extends DTOObject
+class ExportTask
 {
     /**
      * Usernames to be exported
@@ -41,5 +40,20 @@ class ExportTask extends DTOObject
      * @var array
      */
     public $parameters = array();
+
+    public function jsonSerialize()
+	{
+        $data = array();
+        foreach (get_object_vars($this) as $k => $v) {
+            if (!empty($v))
+                $data[$k] = $v;
+        }
+        return $data;
+    }
+
+    public function toJSON()
+    {
+        return json_encode($this->jsonSerialize());
+    }
 
 }

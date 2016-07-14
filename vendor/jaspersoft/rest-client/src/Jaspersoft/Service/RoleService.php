@@ -9,15 +9,23 @@ use Jaspersoft\Dto\Role\Role;
  * Class RoleService
  * @package Jaspersoft\Service
  */
-class RoleService extends JRSService
+class RoleService
 {
+	protected $service;
+	protected $restUrl2;
+
+    public function __construct(Client &$client)
+    {
+        $this->service = $client->getService();
+        $this->restUrl2 = $client->getURL();
+    }
 	
 	private function makeUrl($organization = null, $roleName = null, $params = null)
     {
         if(!empty($organization))
-            $url = $this->service_url . '/organizations/' . $organization . '/roles';
+            $url = $this->restUrl2 . '/organizations/' . $organization . '/roles';
         else
-            $url = $this->service_url . '/roles';
+            $url = $this->restUrl2 . '/roles';
         if (!empty($roleName))
             $url .= '/' . $roleName;
         // If a role name is defined, no parameters are expected

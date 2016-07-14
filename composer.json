@@ -17,9 +17,9 @@
       "role": "Developer"
     }
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
-    "jaspersoft/rest-client": "dev-master"
+    "jaspersoft/rest-client": "*"
   },
   "autoload": {
     "psr-4": {

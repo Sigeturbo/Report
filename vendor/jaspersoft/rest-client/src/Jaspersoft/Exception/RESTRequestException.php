@@ -42,4 +42,9 @@ class RESTRequestException extends \Exception
      */
     public $parameters;
 
+    public function __construct($message)
+    {
+        $this->message = $message;
+    }
+
 }

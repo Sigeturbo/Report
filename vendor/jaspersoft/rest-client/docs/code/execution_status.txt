@@ -1,2 +1,0 @@
-
-$executionStatus = $c->reportExecutionService()->getReportExecutionStatus($executionData->requestId);

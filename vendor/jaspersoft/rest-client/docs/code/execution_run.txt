@@ -1,2 +1,0 @@
-
-$executionData = $c->reportExecutionService()->runReportExecution($request);

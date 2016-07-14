@@ -1,2 +1,0 @@
-
-$metadata = $c->domainService()->getMetadata("/Domains/supermartDomain");

@@ -1,2 +1,0 @@
-
-$c->reportExecutionService()->getExportExecutionStatus($executionData->requestId, $exportData->id);

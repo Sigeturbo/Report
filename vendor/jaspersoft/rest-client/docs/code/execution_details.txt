@@ -1,2 +1,0 @@
-
-$executionDetails = $this->reportExecutionService()->getReportExecutionDetails($executionData->requestId);

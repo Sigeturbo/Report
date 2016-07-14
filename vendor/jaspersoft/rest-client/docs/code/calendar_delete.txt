@@ -1,2 +1,0 @@
-
-$c->jobService()->deleteCalendar("MON_WED_SUN");

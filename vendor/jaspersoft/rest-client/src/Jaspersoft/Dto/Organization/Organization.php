@@ -1,12 +1,11 @@
 <?php
 namespace Jaspersoft\Dto\Organization;
-use Jaspersoft\Dto\DTOObject;
 
 /**
  * Class Organization
  * @package Jaspersoft\Dto\Organization
  */
-class Organization extends DTOObject
+class Organization
 {
     /**
      * @var string
@@ -68,5 +67,16 @@ class Organization extends DTOObject
         $this->tenantNote = $tenantNote;
         $this->tenantUri = $tenantUri;
 	}
+
+    public function jsonSerialize()
+    {
+        $data = array();
+        foreach (get_object_vars($this) as $k => $v) {
+            if (!empty($v)) {
+                $data[$k] = $v;
+            }
+        }
+        return $data;
+    }
 
 }

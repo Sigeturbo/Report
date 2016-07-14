@@ -52,8 +52,7 @@ abstract class CompositeResource extends Resource
                     if (CompositeDTOMapper::isReferenceKey($k)) {
                         $items[$k] = $this->resolveSubresource($k, $v, $class);
                     } else if (CompositeDTOMapper::isCollectionField($field, $class)) {
-                        $collectionKeyValuePair = CompositeDTOMapper::collectionKeyValuePair($class, $field);
-                        $fileField = $collectionKeyValuePair[1];
+                        $fileField = CompositeDTOMapper::collectionKeyValuePair($class, $field)[1];
                         $items[$k] = $this->resolveSubresource($fileField, $v, $class);
                     } else {
                         $items[$k] = $v;

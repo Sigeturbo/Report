@@ -1,6 +1,0 @@
-
-$attachmentData = $c->reportExecutionService()->getExportOutputResourceAttachment($executionData->requestId, $exportData->id, "img_0_0_0");
-
-header('Content-Type: image/png');
-header('Content-Length: ' . strlen($attachmentData));
-echo $attachmentData;

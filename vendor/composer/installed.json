@@ -1,24 +1,24 @@
 [
     {
         "name": "jaspersoft/rest-client",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Jaspersoft/jrs-rest-php-client.git",
-            "reference": "32dc45485030c6339e636c309cd5280af6479bf4"
+            "reference": "017f081101b8f8c1a7ba15b65a89694d8c53bd2c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Jaspersoft/jrs-rest-php-client/zipball/32dc45485030c6339e636c309cd5280af6479bf4",
-            "reference": "32dc45485030c6339e636c309cd5280af6479bf4",
+            "url": "https://api.github.com/repos/Jaspersoft/jrs-rest-php-client/zipball/017f081101b8f8c1a7ba15b65a89694d8c53bd2c",
+            "reference": "017f081101b8f8c1a7ba15b65a89694d8c53bd2c",
             "shasum": ""
         },
         "require": {
             "ext-curl": "*",
             "php": ">=5.3.0"
         },
-        "time": "2015-10-28 19:57:34",
+        "time": "2014-05-27 21:10:25",
         "type": "library",
         "installation-source": "source",
         "autoload": {

@@ -1,6 +1,0 @@
-
-$allLogs = $c->logCollectorService()->downloadAllLogCollectorContentZip();
-header("Content-Type: application/zip");
-header("Content-Disposition: attachment;filename=logs.zip");
-
-echo $allLogs;

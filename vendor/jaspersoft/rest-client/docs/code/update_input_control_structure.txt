@@ -1,4 +1,0 @@
-
-$parameters = array("Country" => array("Mexico", "USA"));
-
-$newStruct = $c->reportService()->updateInputControls("/public/samples/reports/Cascading_multi_select");

@@ -1,9 +1,7 @@
 <?php
 namespace Jaspersoft\Dto\Job;
 
-use Jaspersoft\Dto\DTOObject;
-
-class JobState extends DTOObject
+class JobState
 {
 
     /**
