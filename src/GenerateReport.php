@@ -16,7 +16,7 @@ class GenerateReport
         'rtf' => 'text/rtf',
         'odt' => 'application/vnd.oasis.opendocument.text',
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-        'xlsx' => 'application/vnd.ms-excel'
+        'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     );
     private $server;
     private $username;
