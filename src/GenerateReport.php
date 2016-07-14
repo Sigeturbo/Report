@@ -46,11 +46,11 @@ class GenerateReport
      * @param string $filename
      * @param array $controls
      */
-    public function run($uri, $format = 'pdf', $filename = 'report', $controls = [])
+    public function run($uri, $format = 'pdf', $filename = 'report', $controls = ['year' => 2015])
     {
         $this->client = new Client($this->server, $this->username, $this->password, $this->organization);
         if (isset($uri) && isset($format)) {
-            $report_data = $this->client->reportService()->runReport($uri, $format);
+            $report_data = $this->client->reportService()->runReport($uri, $format, null, null, $controls, true);
             if ($format !== 'html') {
                 echo $this->prepareForDownload($report_data, $filename, $format);
             } else {
@@ -69,16 +69,16 @@ class GenerateReport
     {
 
         header('Cache-Control: max-age=0');
-        //header('Pragma: public');
-        //header('Content-Description: File Transfer');
+        header('Pragma: public');
+        header('Content-Description: File Transfer');
         header('Content-Disposition: attachment;filename=' . $filename . '.' . $format);
-        //header('Content-Transfer-Encoding: binary');
-        //header('Content-Length: ' . strlen($data));
-        //if (isset($this->mime_types[$format])) {
-            //header('Content-Type: ' . $this->mime_types[$format]);
-        //} else {
-        //    header('Content-Type: application/octet-stream');
-        //}
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . strlen($data));
+        if (isset($this->mime_types[$format])) {
+            header('Content-Type: ' . $this->mime_types[$format]);
+        } else {
+            header('Content-Type: application/octet-stream');
+        }
 
         echo $data;
     }
