@@ -5,30 +5,21 @@ use Jaspersoft\Dto\User\User;
 use Jaspersoft\Dto\Role\Role;
 use Jaspersoft\Dto\User\UserLookup;
 use Jaspersoft\Tool\Util;
-use Jaspersoft\Client\Client;
 use Jaspersoft\Dto\Attribute\Attribute;
 
 /**
  * Class UserService
  * @package Jaspersoft\Service
  */
-class UserService
+class UserService extends JRSService
 {
-	protected $service;
-	protected $restUrl2;
-	
-	public function __construct(Client &$client)
-	{
-		$this->service = $client->getService();
-		$this->restUrl2 = $client->getURL();
-	}
 	
 	private function makeUserUrl($organization, $username = null, $params = null)
 	{
         if(!empty($organization)) {
-            $url = $this->restUrl2 . "/organizations/" . $organization . "/users";
+            $url = $this->service_url . "/organizations/" . $organization . "/users";
         } else {
-            $url = $this->restUrl2 . "/users";
+            $url = $this->service_url . "/users";
         }
         if (!empty($username)) {
             $url .= '/' . $username;
@@ -44,10 +35,10 @@ class UserService
     private function makeAttributeUrl($username, $tenantID = null, $attributeNames = null, $attrName = null)
     {
         if (!empty($tenantID)) {
-            $url = $this->restUrl2 . "/organizations/" . $tenantID . "/users/" . $username .
+            $url = $this->service_url . "/organizations/" . $tenantID . "/users/" . $username .
                 "/attributes";
         } else {
-            $url = $this->restUrl2 . "/users" . $username . "/attributes";
+            $url = $this->service_url . "/users/" . $username . "/attributes";
         }
         // Allow for parametrized attribute searches
         if (!empty($attributeNames)) {
@@ -180,38 +171,37 @@ class UserService
      */
     public function getAttributes(User $user, $attributeNames = null)
     {
-        $result = array();
         $url = self::makeAttributeUrl($user->username, $user->tenantId, $attributeNames);
-        $data = $this->service->prepAndSend($url, array(200, 204), 'GET', null, true, 'application/json', 'application/json');
-
-        if(!empty($data)) {
-            $json = json_decode($data);
-        } else {
+        $data = $this->service->prepAndSend($url, array(200, 204), 'GET', null, true);
+        $jsonObj = json_decode($data);
+        if (!empty($jsonObj)) {
+            $result = array();
+            foreach ($jsonObj->attribute as $attr) {
+                $result[] = Attribute::createFromJSON($attr);
+            }
             return $result;
+        } else {
+            return array();
         }
-
-        foreach($json->attribute as $element) {
-            $tempAttribute = new Attribute(
-                $element->name,
-                $element->value);
-            $result[] = $tempAttribute;
-        }
-        return $result;
     }
 
     /**
-     * Create a non-existent attribute, or update an existing attribute
+     * Create a new attributes, or update an existing one.
+     *
+     * If a new attribute is created, a truthy value will be returned, if the attribute is updated,
+     * an Attribute object representing the updated attribute will be returned.
      *
      * @param \Jaspersoft\Dto\User\User $user
      * @param \Jaspersoft\Dto\Attribute\Attribute $attribute
-     * @return bool|null
+     * @return bool|\Jaspersoft\Dto\Attribute\Attribute
      */
     public function addOrUpdateAttribute(User $user, $attribute)
     {
         $url = self::makeAttributeUrl($user->username, $user->tenantId, null, $attribute->name);
         $data = json_encode($attribute);
-        return $this->service->prepAndSend($url, array(201, 200), 'PUT', $data, false,
-            'application/json', 'application/json');
+        $response = $this->service->prepAndSend($url, array(201, 200), 'PUT', $data, true);
+
+        return Attribute::createFromJSON(json_decode($response));
     }
 
     /**
@@ -219,12 +209,20 @@ class UserService
      *
      * @param User $user
      * @param array $attributes
+     * @return array The server representation of the replaced attributes
      */
     public function replaceAttributes(User $user, array $attributes)
     {
         $url = self::makeAttributeUrl($user->username, $user->tenantId);
         $data = json_encode(array('attribute' => $attributes));
-        $this->service->prepAndSend($url, array(200), 'PUT', $data, 'application/json', 'application/json');
+        $response = $this->service->prepAndSend($url, array(200), 'PUT', $data, true);
+        $response = json_decode($response);
+
+        $result = array();
+        foreach ($response->attribute as $attr) {
+            $result[] = Attribute::createFromJSON($attr);
+        }
+        return $result;
     }
 
     /**
@@ -232,6 +230,7 @@ class UserService
      *
      * @param \Jaspersoft\Dto\User\User $user
      * @param array $attributes
+     * @return bool
      */
     public function deleteAttributes(User $user, $attributes = null)
     {
@@ -239,8 +238,6 @@ class UserService
         if (!empty($attributes)) {
             $url .= '?' . Util::query_suffix(array('name' => $attributes));
         }
-        $this->service->prepAndSend($url, array(204), 'DELETE', null, false,
-            'application/json', 'application/json');
+        return $this->service->prepAndSend($url, array(204), 'DELETE', null, false);
     }
-
 }

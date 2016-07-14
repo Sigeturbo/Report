@@ -1,4 +1,4 @@
-PHP REST Client for JRS
+PHP REST Client for JasperReports Server
 =======================================
 
 Introduction
@@ -15,11 +15,11 @@ To use this client, you will need:
 
 Installation
 -------------
-Add the following to your composer.json file for your project, or run `php composer.phar reqiure jaspersoft/rest-client dev-master` in the directory of your project
+Add the following to your composer.json file for your project, or run `php composer.phar reqiure jaspersoft/rest-client v2.0.0` in the directory of your project
 
     {
 	    "require": {
-		    "jaspersoft/rest-client": "*"
+		    "jaspersoft/rest-client": "v2.0.0"
 	    }
     }
 
@@ -31,6 +31,9 @@ Additionally, a distributed autoloader is included if oyu want to simply include
 
 	require_once "autoload.dist.php"
 
+Online Documentation
+--------------------
+Preview the [documentation online] (http://community.jaspersoft.com/wiki/php-client-sample-code) at the Jaspersoft Community website.
 
 Security Notice
 ----------------

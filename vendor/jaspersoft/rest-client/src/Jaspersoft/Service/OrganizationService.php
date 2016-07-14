@@ -2,33 +2,37 @@
 namespace Jaspersoft\Service;
 
 use Jaspersoft\Dto\Organization\Organization;
+use Jaspersoft\Dto\Attribute\Attribute;
 use Jaspersoft\Tool\Util;
-use Jaspersoft\Client\Client;
 
 /**
  * Class OrganizationService
  * @package Jaspersoft\Service
  */
-class OrganizationService
+class OrganizationService extends JRSService
 {
-	protected $service;
-	protected $restUrl2;
-
-    public function __construct(Client &$client)
-    {
-        $this->service = $client->getService();
-        $this->restUrl2 = $client->getURL();
-    }
 	
 	private function makeUrl($organization = null, $params = null)
 	{
-        $url = $this->restUrl2 . '/organizations';
+        $url = $this->service_url . '/organizations';
         if (!empty($organization)) {
             $url .= '/' . $organization;
             return $url;
         }
         if (!empty($params))
             $url .= '?' . Util::query_suffix($params);
+        return $url;
+    }
+
+    private function makeAttributeUrl($tenantID, $attributeNames = null, $attrName = null)
+    {
+        $url = $this->service_url . "/organizations/" . $tenantID . "/attributes";
+        // Allow for parametrized attribute searches
+        if (!empty($attributeNames)) {
+            $url .= '?' . Util::query_suffix(array('name' => $attributeNames));
+        } else if (!empty($attrName)) {
+            $url .= '/' . str_replace(' ', '%20', $attrName); // replace spaces with %20 url encoding
+        }
         return $url;
     }
 	
@@ -137,4 +141,83 @@ class OrganizationService
                 $org->tenantUri
 			    );
 	}
+
+    /**
+     * Retrieve attributes of an organization.
+     *
+     * @param Organization $organization
+     * @param array $attributeNames
+     * @return null|array
+     * @throws \Exception
+     */
+    public function getAttributes(Organization $organization, $attributeNames = null)
+    {
+        $result = array();
+        $url = self::makeAttributeUrl($organization->id, $attributeNames);
+        $data = $this->service->prepAndSend($url, array(200, 204), 'GET', null, true);
+        $jsonObj = json_decode($data);
+        if (!empty($jsonObj)) {
+            $result = array();
+            foreach ($jsonObj->attribute as $attr) {
+                $result[] = Attribute::createFromJSON($attr);
+            }
+            return $result;
+        } else {
+            return array();
+        }
+    }
+
+    /**
+     * Create a non-existent attribute, or update an existing attribute
+     *
+     * @param Organization $organization
+     * @param Attribute $attribute
+     * @return bool|null
+     */
+    public function addOrUpdateAttribute(Organization $organization, $attribute)
+    {
+        $url = self::makeAttributeUrl($organization->id, null, $attribute->name);
+        $data = json_encode($attribute);
+        $response = $this->service->prepAndSend($url, array(201, 200), 'PUT', $data, true);
+
+        return Attribute::createFromJSON(json_decode($response));
+    }
+
+    /**
+     * Replace all existing attributes with the provided set
+     *
+     * @param Organization $organization
+     * @param array $attributes
+     * @return array The server representation of the replaced attributes
+     */
+    public function replaceAttributes(Organization $organization, array $attributes)
+    {
+        $url = self::makeAttributeUrl($organization->id);
+        $data = json_encode(array('attribute' => $attributes));
+        $response = $this->service->prepAndSend($url, array(200), 'PUT', $data, true);
+        $response = json_decode($response);
+
+        $result = array();
+        foreach ($response->attribute as $attr) {
+            $result[] = Attribute::createFromJSON($attr);
+        }
+        return $result;
+    }
+
+    /**
+     * Remove all attributes, or specific attributes from an organization.
+     *
+     * @param Organization $organization
+     * @param array $attributes
+     * @return bool
+     */
+    public function deleteAttributes(Organization $organization, $attributes = null)
+    {
+        $url = self::makeAttributeUrl($organization->id);
+        if (!empty($attributes)) {
+            $url .= '?' . Util::query_suffix(array('name' => $attributes));
+        }
+        return $this->service->prepAndSend($url, array(204), 'DELETE', null, false);
+    }
+
 }

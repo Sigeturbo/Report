@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6488797e21103aa5e1d2958619a6b069",
-    "content-hash": "1a005ce1427f0eb746330d0b30a21c9a",
+    "hash": "5c9904a10acad30692de1974b2cb8e5a",
+    "content-hash": "13cf210405e78141e3f96ce7715abd49",
     "packages": [
         {
             "name": "jaspersoft/rest-client",
-            "version": "v2.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jaspersoft/jrs-rest-php-client.git",
-                "reference": "017f081101b8f8c1a7ba15b65a89694d8c53bd2c"
+                "reference": "32dc45485030c6339e636c309cd5280af6479bf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jaspersoft/jrs-rest-php-client/zipball/017f081101b8f8c1a7ba15b65a89694d8c53bd2c",
-                "reference": "017f081101b8f8c1a7ba15b65a89694d8c53bd2c",
+                "url": "https://api.github.com/repos/Jaspersoft/jrs-rest-php-client/zipball/32dc45485030c6339e636c309cd5280af6479bf4",
+                "reference": "32dc45485030c6339e636c309cd5280af6479bf4",
                 "shasum": ""
             },
             "require": {
@@ -49,13 +49,15 @@
                 "jaspersoft",
                 "reporting"
             ],
-            "time": "2014-05-27 21:10:25"
+            "time": "2015-10-28 19:57:34"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "jaspersoft/rest-client": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

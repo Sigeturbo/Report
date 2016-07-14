@@ -19,7 +19,7 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "jaspersoft/rest-client": "^2.0"
+    "jaspersoft/rest-client": "dev-master"
   },
   "autoload": {
     "psr-4": {
