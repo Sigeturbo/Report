@@ -67,6 +67,7 @@ class GenerateReport
      */
     private function prepareForDownload($data, $filename, $format)
     {
+        header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Content-Description: File Transfer');
         header('Content-Disposition: attachment;filename=' . $filename . '.' . $format);
