@@ -17,7 +17,7 @@
       "role": "Developer"
     }
   ],
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "require": {
     "jaspersoft/rest-client": "dev-master"
   },
