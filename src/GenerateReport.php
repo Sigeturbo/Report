@@ -67,10 +67,9 @@ class GenerateReport
      */
     private function prepareForDownload($data, $filename, $format)
     {
-        header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Content-Description: File Transfer');
-        header('Content-Disposition: attachment;filename=report.' . $format);
+        header('Content-Disposition: attachment;filename=' . $filename . '.' . $format);
         header('Content-Transfer-Encoding: binary');
         header('Content-Length: ' . strlen($data));
         if (isset($this->mime_types[$format])) {
