@@ -18,6 +18,10 @@ class GenerateReport
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         'xlsx' => 'application/vnd.ms-excel'
     );
+    private $server;
+    private $username;
+    private $password;
+    private $organization;
 
     /**
      * Generate constructor.
@@ -29,7 +33,10 @@ class GenerateReport
      */
     public function __construct($server, $username, $password, $organization)
     {
-        $this->client = new Client($server, $username, $password, $organization);
+        $this->server = $server;
+        $this->username = $username;
+        $this->password = $password;
+        $this->organization = $organization;
     }
 
     /**
@@ -41,6 +48,7 @@ class GenerateReport
      */
     public function run($uri, $format = 'pdf', $filename = 'report', $controls = [])
     {
+        $this->client = new Client($this->server, $this->username, $this->password, $this->organization);
         if (isset($uri) && isset($format)) {
             $report_data = $this->client->reportService()->runReport($uri, $format, null, null, $controls);
             if ($format !== 'html') {
