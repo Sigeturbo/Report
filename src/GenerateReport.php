@@ -67,8 +67,9 @@ class GenerateReport
      */
     private function prepareForDownload($data, $filename, $format)
     {
-        /*
+
         header('Cache-Control: max-age=0');
+        /*
         header('Pragma: public');
         header('Content-Description: File Transfer');
         header('Content-Disposition: attachment;filename=' . $filename . '.' . $format);
