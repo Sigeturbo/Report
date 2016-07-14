@@ -69,9 +69,9 @@ class GenerateReport
     {
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        eader('Content-Description: File Transfer');
+        header('Content-Description: File Transfer');
         header('Content-Disposition: attachment;filename="' . $filename . '.' . $format . '"');
-        //header('Content-Transfer-Encoding: binary');
+        header('Content-Transfer-Encoding: binary');
         header('Content-Length: ' . strlen($data));
         if (isset($this->mime_types[$format])) {
             header('Content-Type: ' . $this->mime_types[$format]);
