@@ -44,7 +44,7 @@ class Generate
         if (isset($uri) && isset($format)) {
             $report_data = $this->client->reportService()->runReport($uri, $format, null, null, $controls);
             if ($format !== 'html') {
-                echo $this->prepareForDownload($report_data, $filename, $_GET['format']);
+                echo $this->prepareForDownload($report_data, $filename, $format);
             } else {
                 echo $report_data;
             }
