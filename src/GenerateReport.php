@@ -67,14 +67,14 @@ class GenerateReport
      */
     private function prepareForDownload($data, $filename, $format)
     {
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Description: File Transfer');
+        header('Cache-Control: max-age=0');
+        //header('Pragma: public');
+        //header('Content-Description: File Transfer');
         header('Content-Disposition: attachment;filename="' . $filename . '.' . $format . '"');
         //header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . strlen($data));
+        //header('Content-Length: ' . strlen($data));
         if (isset($this->mime_types[$format])) {
-            header('Content-Type: ' . $this->mime_types[$format]);
+            //header('Content-Type: ' . $this->mime_types[$format]);
         } else {
             header('Content-Type: application/octet-stream');
         }
