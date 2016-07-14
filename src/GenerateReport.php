@@ -4,7 +4,7 @@ namespace SigeTurbo\Report;
 
 use Jaspersoft\Client\Client;
 
-class Generate
+class GenerateReport
 {
     private $client;
     private $mime_types = array(
