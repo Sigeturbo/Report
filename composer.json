@@ -1,0 +1,29 @@
+{
+  "name": "sigeturbo/report",
+  "type": "library",
+  "description": "SigeTurbo Report",
+  "keywords": [
+    "report",
+    "jasper",
+    "laravel"
+  ],
+  "homepage": "https://github.com/sigeturbo/Report",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "José Jaraba",
+      "email": "webadm@thenewschool.edu.co",
+      "homepage": "https://sigeturbo.thenewschool.edu.co",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "jaspersoft/rest-client": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SigeTurbo\\Report\\": "src/"
+    }
+  }
+}
