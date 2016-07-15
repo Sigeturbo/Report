@@ -71,9 +71,10 @@ class GenerateReport
                     'sink' => $file
                 ]);
             } else {
-                $this->client->send($request, [
+                $response = $this->client->send($request, [
                     'auth' => [config('report.username'), config('report.password')]
                 ]);
+                echo $response->getBody();
             }
         }
 
