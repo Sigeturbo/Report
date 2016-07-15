@@ -96,9 +96,7 @@ class GenerateReport
         } else {
             $url .= '?' . Util::query_suffix(array_merge(compact("pages", "attachmentsPrefix", "interactive", "onePagePerSheet", "freshData", "saveDataSnapshot", "transformerKey"), $controls));
         }
-        //return $url;
-        dd($url);
-        exit();
+        return $url;
     }
 
 
