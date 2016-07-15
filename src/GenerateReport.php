@@ -46,7 +46,7 @@ class GenerateReport
      * @param string $filename
      * @param array $controls
      */
-    public function run($uri, $format = 'pdf', $filename = 'report', $controls = ['year' => 2015])
+    public function run($uri, $format = 'pdf', $filename = 'report', $controls = [])
     {
         $this->client = new Client($this->server, $this->username, $this->password, $this->organization);
         if (isset($uri) && isset($format)) {
