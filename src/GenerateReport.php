@@ -50,12 +50,12 @@ class GenerateReport
      * @param string $filename
      * @param array $controls
      */
-    public function run($uri, $format = 'pdf', $filename = 'report', $controls = [])
+    public function run($uri, $format = 'pdf', $filename = 'report', $controls = [], $pages = null, $attachmentsPrefix = null, $interactive = true, $onePagePerSheet = false, $freshData = true, $saveDataSnapshot = false, $transformerKey = null)
     {
         if ($this->mimeType($format)) {
             $this->client = new Client();
             $file = fopen($this->storage . '/' . $filename . "." . $format, "w") or die("Problems");
-            $url = $this->getUrl($uri, $format, $controls);
+            $url = $this->getUrl($uri, $format, $controls, $pages, $attachmentsPrefix, $interactive ,$onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey);
             $request = new Request('GET', $url);
             $this->client->send($request, [
                 'auth' => [config('report.username'), config('report.password')],
@@ -76,7 +76,7 @@ class GenerateReport
     private function getUrl($uri, $format, $controls)
     {
 
-        $url = "http://" . $this->hostname . ":" . $this->port . $this->baseUrl . config('report.version') . "/reports" . $uri . "." . $format;
+        $url = "http://" . $this->hostname . ":" . $this->port . $this->baseUrl . '/' . config('report.version') . "/reports" . $uri . "." . $format;
         if (empty($controls)) {
             $url .= '?' . Util::query_suffix(compact("pages", "attachmentsPrefix", "interactive", "onePagePerSheet", "freshData", "saveDataSnapshot", "transformerKey"));
         } else {
@@ -85,7 +85,6 @@ class GenerateReport
         //return $url;
         dd($url);
         exit();
-        //'http://23.253.151.166:8080/jasperserver/rest_v2/reports/reports/sigeturbo/Purchases/Purchase.xlsx?interactive=true&onePagePerSheet=false&freshData=true&saveDataSnapshot=false&codeID=20160715-01'
     }
 
 
