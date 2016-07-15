@@ -58,7 +58,7 @@ class GenerateReport
             $url = $this->getUrl($uri, $format, $controls);
             $request = new Request('GET', $url);
             $this->client->send($request, [
-                'auth' => [$this->username, $this->password],
+                'auth' => [config('report.username'), config('report.password')],
                 'alt' => 'media',
                 'sink' => $file
             ]);
@@ -82,7 +82,9 @@ class GenerateReport
         } else {
             $url .= '?' . Util::query_suffix(array_merge(compact("pages", "attachmentsPrefix", "interactive", "onePagePerSheet", "freshData", "saveDataSnapshot", "transformerKey"), $controls));
         }
-        return $url;
+        //return $url;
+        dd($url);
+        exit();
         //'http://23.253.151.166:8080/jasperserver/rest_v2/reports/reports/sigeturbo/Purchases/Purchase.xlsx?interactive=true&onePagePerSheet=false&freshData=true&saveDataSnapshot=false&codeID=20160715-01'
     }
 
