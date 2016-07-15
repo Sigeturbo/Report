@@ -51,11 +51,12 @@ class GenerateReport
         $this->client = new Client($this->server, $this->username, $this->password, $this->organization);
         if (isset($uri) && isset($format)) {
             $report_data = $this->client->reportService()->runReport($uri, $format, null, null, $controls, true);
-            if ($format !== 'html') {
+            echo $report_data;
+            /*if ($format !== 'html') {
                 echo $this->prepareForDownload($report_data, $filename, $format);
             } else {
                 echo $report_data;
-            }
+            }*/
         }
     }
 
