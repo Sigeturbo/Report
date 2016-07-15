@@ -4,13 +4,13 @@ namespace SigeTurbo\Report;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use SigeTurbo\Report\Tool\Util;
 
 class GenerateReport
 {
+
     protected $client;
-    private $server;
-    private $username;
-    private $password;
+    private $hostname;
     private $organization;
     private $storage;
     private $mime_types = array(
@@ -29,14 +29,18 @@ class GenerateReport
     /**
      * Generate constructor.
      * @param $storage
+     * @param string $hostname
+     * @param string $port
+     * @param string $baseUrl
+     * @param null $organization
      */
-    public function __construct($storage)
+    public function __construct($storage, $hostname = 'localhost', $port = '8080', $baseUrl = "/jasperserver", $organization = null)
     {
-        $this->server = config('report.message');
-        $this->username = config('report.username');
-        $this->password = config('report.password');
-        $this->organization = config('report.organization');
         $this->storage = $storage;
+        $this->hostname = $hostname;
+        $this->port = $port;
+        $this->baseUrl = $baseUrl;
+        $this->organization = $organization;
     }
 
     /**
@@ -50,18 +54,44 @@ class GenerateReport
     {
         if ($this->mimeType($format)) {
             $this->client = new Client();
-            $myFile = fopen($this->storage . '/' . $filename . "." . $format, "w") or die("Problems");
-            $request = new Request('GET', 'http://23.253.151.166:8080/jasperserver/rest_v2/reports/reports/sigeturbo/Purchases/Purchase.xlsx?interactive=true&onePagePerSheet=false&freshData=true&saveDataSnapshot=false&codeID=20160715-01');
+            $file = fopen($this->storage . '/' . $filename . "." . $format, "w") or die("Problems");
+            $url = $this->getUrl($uri, $format, $controls);
+            $request = new Request('GET', $url);
             $this->client->send($request, [
                 'auth' => [$this->username, $this->password],
                 'alt' => 'media',
-                'sink' => $myFile
+                'sink' => $file
             ]);
         }
 
     }
 
+    /**
+     * Get URL
+     * @param $uri
+     * @param $format
+     * @param $controls
+     * @return string
+     */
+    private function getUrl($uri, $format, $controls)
+    {
 
+        $url = "http://" . $this->hostname . ":" . $this->port . $this->baseUrl . config('report.version') . "/reports" . $uri . "." . $format;
+        if (empty($controls)) {
+            $url .= '?' . Util::query_suffix(compact("pages", "attachmentsPrefix", "interactive", "onePagePerSheet", "freshData", "saveDataSnapshot", "transformerKey"));
+        } else {
+            $url .= '?' . Util::query_suffix(array_merge(compact("pages", "attachmentsPrefix", "interactive", "onePagePerSheet", "freshData", "saveDataSnapshot", "transformerKey"), $controls));
+        }
+        return $url;
+        //'http://23.253.151.166:8080/jasperserver/rest_v2/reports/reports/sigeturbo/Purchases/Purchase.xlsx?interactive=true&onePagePerSheet=false&freshData=true&saveDataSnapshot=false&codeID=20160715-01'
+    }
+
+
+    /**
+     * Verify Valid MimeType
+     * @param $format
+     * @return bool
+     */
     private function mimeType($format)
     {
         if ($this->mime_types[$format]) {
