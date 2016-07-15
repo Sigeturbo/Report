@@ -49,6 +49,13 @@ class GenerateReport
      * @param string $format
      * @param string $filename
      * @param array $controls
+     * @param null $pages
+     * @param null $attachmentsPrefix
+     * @param bool $interactive
+     * @param bool $onePagePerSheet
+     * @param bool $freshData
+     * @param bool $saveDataSnapshot
+     * @param null $transformerKey
      */
     public function run($uri, $format = 'pdf', $filename = 'report', $controls = [], $pages = null, $attachmentsPrefix = null, $interactive = true, $onePagePerSheet = false, $freshData = true, $saveDataSnapshot = false, $transformerKey = null)
     {
@@ -71,9 +78,16 @@ class GenerateReport
      * @param $uri
      * @param $format
      * @param $controls
+     * @param $pages
+     * @param $attachmentsPrefix
+     * @param $interactive
+     * @param $onePagePerSheet
+     * @param $freshData
+     * @param $saveDataSnapshot
+     * @param $transformerKey
      * @return string
      */
-    private function getUrl($uri, $format, $controls)
+    private function getUrl($uri, $format, $controls, $pages, $attachmentsPrefix, $interactive, $onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey)
     {
 
         $url = "http://" . $this->hostname . ":" . $this->port . $this->baseUrl . '/' . config('report.version') . "/reports" . $uri . "." . $format;
