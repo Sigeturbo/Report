@@ -1,4 +1,0 @@
-$org_one = $c->organizationService()->getOrganization("organization_1");
-
-// Print the details of the $org_one Organization object
-var_dump($org_one);

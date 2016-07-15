@@ -1,2 +1,0 @@
-$joeUser = $c->userService()->getUser("joeuser", "organization_1");
-$c->userService()->deleteAttributes($joeUser);

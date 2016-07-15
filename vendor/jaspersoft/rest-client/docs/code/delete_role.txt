@@ -1,2 +1,0 @@
-$role_human = $c->roleService()->getRole("ROLE_HUMAN", "organization_1");
-$c->roleService()->deleteRole($role_human);

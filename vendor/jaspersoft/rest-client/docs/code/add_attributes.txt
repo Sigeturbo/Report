@@ -1,4 +1,0 @@
-$joeUser = $c->userService()->getUser("joeuser", "organization_1");
-
-$animal_attr = new Attribute("Favorite Animal", "Bear");
-$c->userService()->addOrUpdateAttribute($joeUser, $animal_attr);

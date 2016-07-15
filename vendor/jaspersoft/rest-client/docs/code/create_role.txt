@@ -1,2 +1,0 @@
-$robot_role = new Role("ROLE_ROBOT", "organization_1");
-$c->roleService()->createRole($robot_role);

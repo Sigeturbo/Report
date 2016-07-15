@@ -1,2 +1,0 @@
-$allJobs = $c->jobService()->searchJobs("/reports/samples/AllAccounts");
-print_r($allJobs);

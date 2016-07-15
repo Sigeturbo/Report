@@ -19,7 +19,7 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "jaspersoft/rest-client": "*"
+    "guzzlehttp/guzzle": "^6.2"
   },
   "autoload": {
     "psr-4": {
