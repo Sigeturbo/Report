@@ -1,6 +1,6 @@
 <?php
 return [
-    'username' => 'jasperadmin',
-    'password' => '*jija_01*08',
-    'version' => 'rest_v2',
+    'username' => env('JASPERSERVER_USERNAME', 'jasperadmin'),
+    'password' => env('JASPERSERVER_PASSWORD'),
+    'version' => env('JASPERSERVER_VERSION', 'rest_v2')
 ];

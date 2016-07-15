@@ -56,6 +56,7 @@ class GenerateReport
      * @param bool $freshData
      * @param bool $saveDataSnapshot
      * @param null $transformerKey
+     * @return bool
      */
     public function run($uri, $format = 'pdf', $filename = 'report', $controls = [], $pages = null, $attachmentsPrefix = null, $interactive = true, $onePagePerSheet = false, $freshData = true, $saveDataSnapshot = false, $transformerKey = null)
     {
@@ -70,6 +71,7 @@ class GenerateReport
                     'alt' => 'media',
                     'sink' => $file
                 ]);
+                return true;
             } else {
                 $response = $this->client->send($request, [
                     'auth' => [config('report.username'), config('report.password')]
