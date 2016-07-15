@@ -62,13 +62,19 @@ class GenerateReport
         if ($this->mimeType($format)) {
             $this->client = new Client();
             $file = fopen($this->storage . '/' . $filename . "." . $format, "w") or die("Problems");
-            $url = $this->getUrl($uri, $format, $controls, $pages, $attachmentsPrefix, $interactive ,$onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey);
+            $url = $this->getUrl($uri, $format, $controls, $pages, $attachmentsPrefix, $interactive, $onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey);
             $request = new Request('GET', $url);
-            $this->client->send($request, [
-                'auth' => [config('report.username'), config('report.password')],
-                'alt' => 'media',
-                'sink' => $file
-            ]);
+            if ($format !== 'html') {
+                $this->client->send($request, [
+                    'auth' => [config('report.username'), config('report.password')],
+                    'alt' => 'media',
+                    'sink' => $file
+                ]);
+            } else {
+                $this->client->send($request, [
+                    'auth' => [config('report.username'), config('report.password')]
+                ]);
+            }
         }
 
     }
