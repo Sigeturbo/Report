@@ -121,5 +121,4 @@ class GenerateReport
         return false;
     }
 
-
 }
