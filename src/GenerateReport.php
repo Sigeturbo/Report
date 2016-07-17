@@ -28,15 +28,13 @@ class GenerateReport
 
     /**
      * Generate constructor.
-     * @param $storage
      * @param string $hostname
      * @param string $port
      * @param string $baseUrl
      * @param null $organization
      */
-    public function __construct($storage, $hostname = 'localhost', $port = '8080', $baseUrl = "/jasperserver", $organization = null)
+    public function __construct($hostname = 'localhost', $port = '8080', $baseUrl = "/jasperserver", $organization = null)
     {
-        $this->storage = $storage;
         $this->hostname = $hostname;
         $this->port = $port;
         $this->baseUrl = $baseUrl;
@@ -45,6 +43,7 @@ class GenerateReport
 
     /**
      * Run Report
+     * @param $storage
      * @param $uri
      * @param string $format
      * @param string $filename
@@ -58,11 +57,11 @@ class GenerateReport
      * @param null $transformerKey
      * @return bool
      */
-    public function run($uri, $format = 'pdf', $filename = 'report', $controls = [], $pages = null, $attachmentsPrefix = null, $interactive = true, $onePagePerSheet = false, $freshData = true, $saveDataSnapshot = false, $transformerKey = null)
+    public function run($storage, $uri, $format = 'pdf', $filename = 'report', $controls = [], $pages = null, $attachmentsPrefix = null, $interactive = true, $onePagePerSheet = false, $freshData = true, $saveDataSnapshot = false, $transformerKey = null)
     {
         if ($this->mimeType($format)) {
             $this->client = new Client();
-            $file = fopen($this->storage . '/' . $filename . "." . $format, "w") or die("Problems");
+            $file = fopen($storage . '/' . $filename . "." . $format, "w") or die("Problems");
             $url = $this->getUrl($uri, $format, $controls, $pages, $attachmentsPrefix, $interactive, $onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey);
             $request = new Request('GET', $url);
             if ($format !== 'html') {
