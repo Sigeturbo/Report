@@ -48,6 +48,7 @@ class GenerateReport
      * @param string $format
      * @param string $filename
      * @param array $controls
+     * @param null $ignorePagination
      * @param null $pages
      * @param null $attachmentsPrefix
      * @param bool $interactive
@@ -57,12 +58,12 @@ class GenerateReport
      * @param null $transformerKey
      * @return bool
      */
-    public function run($storage, $uri, $format = 'pdf', $filename = 'report', $controls = [], $pages = null, $attachmentsPrefix = null, $interactive = true, $onePagePerSheet = false, $freshData = true, $saveDataSnapshot = false, $transformerKey = null)
+    public function run($storage, $uri, $format = 'pdf', $filename = 'report', $controls = [], $ignorePagination = null, $pages = null, $attachmentsPrefix = null, $interactive = true, $onePagePerSheet = false, $freshData = true, $saveDataSnapshot = false, $transformerKey = null)
     {
         if ($this->mimeType($format)) {
             $this->client = new Client();
             $file = fopen($storage . '/' . $filename . "." . $format, "w") or die("Problems");
-            $url = $this->getUrl($uri, $format, $controls, $pages, $attachmentsPrefix, $interactive, $onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey);
+            $url = $this->getUrl($uri, $format, $controls, $pages, $ignorePagination, $attachmentsPrefix, $interactive, $onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey);
             $request = new Request('GET', $url);
             if ($format !== 'html') {
                 $this->client->send($request, [
@@ -86,6 +87,7 @@ class GenerateReport
      * @param $uri
      * @param $format
      * @param $controls
+     * @param $ignorePagination
      * @param $pages
      * @param $attachmentsPrefix
      * @param $interactive
@@ -95,14 +97,14 @@ class GenerateReport
      * @param $transformerKey
      * @return string
      */
-    private function getUrl($uri, $format, $controls, $pages, $attachmentsPrefix, $interactive, $onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey)
+    private function getUrl($uri, $format, $controls, $ignorePagination, $pages, $attachmentsPrefix, $interactive, $onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey)
     {
 
         $url = "http://" . $this->hostname . ":" . $this->port . $this->baseUrl . '/' . config('report.version') . "/reports" . $uri . "." . $format;
         if (empty($controls)) {
-            $url .= '?' . Util::query_suffix(compact("pages", "attachmentsPrefix", "interactive", "onePagePerSheet", "freshData", "saveDataSnapshot", "transformerKey"));
+            $url .= '?' . Util::query_suffix(compact("ignorePagination", "pages", "attachmentsPrefix", "interactive", "onePagePerSheet", "freshData", "saveDataSnapshot", "transformerKey"));
         } else {
-            $url .= '?' . Util::query_suffix(array_merge(compact("pages", "attachmentsPrefix", "interactive", "onePagePerSheet", "freshData", "saveDataSnapshot", "transformerKey"), $controls));
+            $url .= '?' . Util::query_suffix(array_merge(compact("ignorePagination", "pages", "attachmentsPrefix", "interactive", "onePagePerSheet", "freshData", "saveDataSnapshot", "transformerKey"), $controls));
         }
         return $url;
     }
