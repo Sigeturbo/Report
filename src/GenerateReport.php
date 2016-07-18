@@ -63,7 +63,7 @@ class GenerateReport
         if ($this->mimeType($format)) {
             $this->client = new Client();
             $file = fopen($storage . '/' . $filename . "." . $format, "w") or die("Problems");
-            $url = $this->getUrl($uri, $format, $controls, $pages, $ignorePagination, $attachmentsPrefix, $interactive, $onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey);
+            $url = $this->getUrl($uri, $format, $controls, $ignorePagination, $pages, $attachmentsPrefix, $interactive, $onePagePerSheet, $freshData, $saveDataSnapshot, $transformerKey);
             $request = new Request('GET', $url);
             if ($format !== 'html') {
                 $this->client->send($request, [
