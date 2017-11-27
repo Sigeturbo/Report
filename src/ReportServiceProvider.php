@@ -31,4 +31,5 @@ class ReportServiceProvider extends ServiceProvider
             return new Report;
         });
     }
+    
 }
