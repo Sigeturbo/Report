@@ -27,7 +27,7 @@ class ReportServiceProvider extends ServiceProvider
     {
         //Config
         $this->mergeConfigFrom( __DIR__.'/Config/report.php', 'report');
-        $this->app["report"] = $this->app->share(function ($app) {
+        $this->app["report"] = $this->app->singleton('report',function ($app) {
             return new Report;
         });
     }
